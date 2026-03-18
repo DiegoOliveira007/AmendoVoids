@@ -4,7 +4,7 @@ const fs = require("fs");
 
 const app = express();
 
-// ========= CONFIG =========
+// Configurações
 const CHANNEL = "albedu0"; // <-- MUDE
 const URL = `https://www.twitch.tv/${CHANNEL}`;
 
@@ -18,12 +18,12 @@ let isRecording = false;
 let currentFile = "";
 let currentIdentifier = "";
 
-// 🔹 endpoint pra uptime robot
+// Endpoint pra uptime robot
 app.get("/", (req, res) => {
   res.send("OK");
 });
 
-// 🔍 verifica live
+// Verifica live
 function checkLive() {
   exec(`yt-dlp -j ${URL}`, (err, stdout) => {
     if (err) return;
@@ -32,7 +32,7 @@ function checkLive() {
       const data = JSON.parse(stdout);
 
       if (data.is_live && !isRecording) {
-        console.log("🔴 Live detectada!");
+        console.log("Live detectada!");
         startRecording();
       } else {
         console.log("Live Offiline");
@@ -43,7 +43,7 @@ function checkLive() {
   });
 }
 
-// ▶️ inicia gravação
+// Inicia gravação
 function startRecording() {
   isRecording = true;
 
@@ -61,7 +61,7 @@ function startRecording() {
   });
 }
 
-// ☁️ upload pro Internet Archive
+// Upload pro Internet Archive
 function uploadToArchive() {
   console.log("Enviando para Internet Archive");
 
@@ -89,9 +89,9 @@ function uploadToArchive() {
   });
 }
 
-// ⏱️ checa a cada 60s
+// Checa a cada 60s
 setInterval(checkLive, 60000);
 
 app.listen(3000, () => {
-  console.log("🤖 Bot rodando...");
+  console.log("Bot está funcionando");
 });
